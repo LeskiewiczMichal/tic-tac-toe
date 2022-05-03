@@ -377,6 +377,22 @@ body {
     background-color: blue;
 }
 
-#board > div {
+#board > button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    
+    background-repeat: no-repeat;
+    background-position: center;
     background-color: red;
+}
+
+#board > .X {
+    background-image: url(./icons/x.svg);
+}
+
+#board > .O {
+    background-image: url(./icons/circle.svg);
 }

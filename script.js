@@ -1,33 +1,66 @@
 const gameboard = (() => {
-    let _gameboard = ['x', 'o', 'x', 'o', 'x', 'o', 'x', 'o', 'x'];
+    let _gameboard = ['', 'O', 'X', '', 'X', 'O', 'X', 'O', 'X'];
     
     // cache DOM
     let board = document.getElementById('board');
 
     // bind events
 
-    createBoardDiv();
-    appendToHTML();
+    createBoardButton();
+    
 
-    function appendToHTML() {
 
+    function createBoardButton() {
+        _gameboard.forEach(createNewButton);
     };
 
-    function createBoardDiv() {
-        _gameboard.forEach(createNewDiv);
+    function createNewButton(val) {
+        const newBtn = document.createElement('button');
+        newBtn.classList.add('field');
+        board.appendChild(newBtn)
     };
 
-    function createNewDiv() {
-        const newDiv = document.createElement('div');
-        board.appendChild(newDiv);
-    };
+
 
 })();
 
-const player = () => {
-
+const player = (symbol) => {
+    return {symbol}
+    
 }
 
-const displayController = (() => {
+const game = (() => {
+    const playerOne = player('X');
+    const playerTwo = player('O');
 
+    // cache DOM
+    const buttons = document.querySelectorAll('.field');
+    
+    // bind events
+    buttons.forEach(item => {
+        item.addEventListener('click', () => {console.log(item)})
+    })
+    
+    function play() {
+        for (i = 1; i < 9; i++) {
+            if (i % 2 === true) {
+                playerTwoPlay()
+            } else { 
+                playerOnePlay()
+            }
+        }
+    }
+
+    function playerOnePlay() {
+        console.log(this.buttons);
+    }
+
+    function playerChange() {
+        if (player.symbol === 'X') {
+            playerTw
+        } else {
+
+        }
+    }
+ 
 })();
