@@ -1,5 +1,6 @@
+
 const gameboard = (() => {
-    let _gameboard = ['', 'O', 'X', '', 'X', 'O', 'X', 'O', 'X'];
+    let _gameboard = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     
     // cache DOM
     let board = document.getElementById('board');
@@ -17,8 +18,19 @@ const gameboard = (() => {
     function createNewButton(val) {
         const newBtn = document.createElement('button');
         newBtn.classList.add('field');
+        if (val === 'X') {
+            newBtn.classList.add('X')
+        } else if (val === 'O') {
+            newBtn.classList.add('O');
+        }
+        newBtn.setAttribute('btnNum', val)
+        newBtn.addEventListener('click', () => {console.log('lecgo')})
         board.appendChild(newBtn)
     };
+
+    function checkForChanges(btn) {
+        
+    }
 
 
 
@@ -38,6 +50,7 @@ const game = (() => {
     // bind events
     buttons.forEach(item => {
         item.addEventListener('click', play);
+        item.addEventListener('click', checkForWinner);
     })
     
     function play(e) {
@@ -51,5 +64,64 @@ const game = (() => {
         square.disabled = true;
     }
 
+    function checkForWinner(e) {
+        if (
+            buttons[0].getAttribute('data-val') === 'X' &
+            buttons[3].getAttribute('data-val') === 'X' &
+            buttons[6].getAttribute('data-val') === 'X' ||
+            buttons[2].getAttribute('data-val') === 'X' &
+            buttons[4].getAttribute('data-val') === 'X' &
+            buttons[7].getAttribute('data-val') === 'X' ||
+            buttons[3].getAttribute('data-val') === 'X' &
+            buttons[5].getAttribute('data-val') === 'X' &
+            buttons[8].getAttribute('data-val') === 'X' ||
+            buttons[0].getAttribute('data-val') === 'X' &
+            buttons[4].getAttribute('data-val') === 'X' &
+            buttons[8].getAttribute('data-val') === 'X' ||
+            buttons[2].getAttribute('data-val') === 'X' &
+            buttons[4].getAttribute('data-val') === 'X' &
+            buttons[6].getAttribute('data-val') === 'X' ||
+            buttons[0].getAttribute('data-val') === 'X' &
+            buttons[1].getAttribute('data-val') === 'X' &
+            buttons[2].getAttribute('data-val') === 'X' ||
+            buttons[3].getAttribute('data-val') === 'X' &
+            buttons[4].getAttribute('data-val') === 'X' &
+            buttons[5].getAttribute('data-val') === 'X' ||
+            buttons[6].getAttribute('data-val') === 'X' &
+            buttons[7].getAttribute('data-val') === 'X' &
+            buttons[8].getAttribute('data-val') === 'X' 
+        ) {
+            console.log('player one won')
+        } else if (
+            buttons[0].getAttribute('data-val') === 'O' &
+            buttons[3].getAttribute('data-val') === 'O' &
+            buttons[6].getAttribute('data-val') === 'O' ||
+            buttons[2].getAttribute('data-val') === 'O' &
+            buttons[4].getAttribute('data-val') === 'O' &
+            buttons[7].getAttribute('data-val') === 'O' ||
+            buttons[3].getAttribute('data-val') === 'O' &
+            buttons[5].getAttribute('data-val') === 'O' &
+            buttons[8].getAttribute('data-val') === 'O' ||
+            buttons[0].getAttribute('data-val') === 'O' &
+            buttons[4].getAttribute('data-val') === 'O' &
+            buttons[8].getAttribute('data-val') === 'O' ||
+            buttons[2].getAttribute('data-val') === 'O' &
+            buttons[4].getAttribute('data-val') === 'O' &
+            buttons[6].getAttribute('data-val') === 'O' ||
+            buttons[0].getAttribute('data-val') === 'O' &
+            buttons[1].getAttribute('data-val') === 'O' &
+            buttons[2].getAttribute('data-val') === 'O' ||
+            buttons[3].getAttribute('data-val') === 'O' &
+            buttons[4].getAttribute('data-val') === 'O' &
+            buttons[5].getAttribute('data-val') === 'O' ||
+            buttons[6].getAttribute('data-val') === 'O' &
+            buttons[7].getAttribute('data-val') === 'O' &
+            buttons[8].getAttribute('data-val') === 'O' 
+        ){
+            console.log('player two won')
+        }
+    }
+
+    return {checkForWinner}
 })();
 
