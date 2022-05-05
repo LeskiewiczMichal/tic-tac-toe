@@ -389,10 +389,10 @@ body {
     background-color: red;
 }
 
-#board > .X {
+[data-val = "X"] {
     background-image: url(./icons/x.svg);
 }
 
-#board > .O {
+[data-val = "O"] {
     background-image: url(./icons/circle.svg);
 }

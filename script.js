@@ -24,43 +24,32 @@ const gameboard = (() => {
 
 })();
 
-const player = (symbol) => {
-    return {symbol}
-    
-}
+
 
 const game = (() => {
-    const playerOne = player('X');
-    const playerTwo = player('O');
+
+    let player1 = 'X'
+    let player2 = 'O'
+    let moveCount = 1;
 
     // cache DOM
     const buttons = document.querySelectorAll('.field');
     
     // bind events
     buttons.forEach(item => {
-        item.addEventListener('click', () => {console.log(item)})
+        item.addEventListener('click', play);
     })
     
-    function play() {
-        for (i = 1; i < 9; i++) {
-            if (i % 2 === true) {
-                playerTwoPlay()
-            } else { 
-                playerOnePlay()
-            }
-        }
-    }
-
-    function playerOnePlay() {
-        console.log(this.buttons);
-    }
-
-    function playerChange() {
-        if (player.symbol === 'X') {
-            playerTw
+    function play(e) {
+        let square = e.target;
+        if (moveCount % 2 == 0) {
+            square.dataset.val = player1;
         } else {
-
+            square.dataset.val = 'O'
         }
+        moveCount++;
+        square.disabled = true;
     }
- 
+
 })();
+
