@@ -7,11 +7,8 @@
 
         // bind events
 
-
         createBoardButton();
         
-
-
         function createBoardButton() {
             _gameboard.forEach(createNewButton);
         };
@@ -29,18 +26,16 @@
         };
 
         const checkforChanges = (e, moveCount) => {
-            let btnnum = e.target.getAttribute('btnnum');
-            let index = _gameboard.indexOf(btnnum)
+            let button = e.target;
+            let index = _gameboard.indexOf(button.getAttribute('btnnum'));
             if (moveCount % 2 == 0) {
                 _gameboard[index] = 'X'
             } else {
                 _gameboard[index] = 'O'
             }
-            console.log(index)
-            console.log(_gameboard)
-            }
-
-
+            game.checkWin(_gameboard, moveCount)
+        }
+        
         return {checkforChanges}
     })();
 
@@ -59,7 +54,7 @@
         // bind events
         buttons.forEach(item => {
             item.addEventListener('click', play);
-            item.addEventListener('click', checkForWinner);
+            // item.addEventListener('click', );
         })
         
         function play(e) {
@@ -67,71 +62,77 @@
             if (moveCount % 2 == 0) {
                 square.dataset.val = player1;
             } else {
-                square.dataset.val = 'O'
+                square.dataset.val = player2;
             }
+            gameboard.checkforChanges(e, moveCount);
             moveCount++;
             square.disabled = true;
         }
 
-        function checkForWinner(e) {
+        const checkWin = function winCheck(board, moveCount) {
             if (
-                buttons[0].getAttribute('data-val') === 'X' &
-                buttons[3].getAttribute('data-val') === 'X' &
-                buttons[6].getAttribute('data-val') === 'X' ||
-                buttons[2].getAttribute('data-val') === 'X' &
-                buttons[4].getAttribute('data-val') === 'X' &
-                buttons[7].getAttribute('data-val') === 'X' ||
-                buttons[3].getAttribute('data-val') === 'X' &
-                buttons[5].getAttribute('data-val') === 'X' &
-                buttons[8].getAttribute('data-val') === 'X' ||
-                buttons[0].getAttribute('data-val') === 'X' &
-                buttons[4].getAttribute('data-val') === 'X' &
-                buttons[8].getAttribute('data-val') === 'X' ||
-                buttons[2].getAttribute('data-val') === 'X' &
-                buttons[4].getAttribute('data-val') === 'X' &
-                buttons[6].getAttribute('data-val') === 'X' ||
-                buttons[0].getAttribute('data-val') === 'X' &
-                buttons[1].getAttribute('data-val') === 'X' &
-                buttons[2].getAttribute('data-val') === 'X' ||
-                buttons[3].getAttribute('data-val') === 'X' &
-                buttons[4].getAttribute('data-val') === 'X' &
-                buttons[5].getAttribute('data-val') === 'X' ||
-                buttons[6].getAttribute('data-val') === 'X' &
-                buttons[7].getAttribute('data-val') === 'X' &
-                buttons[8].getAttribute('data-val') === 'X' 
-            ) {
-                console.log('player one won')
-            } else if (
-                buttons[0].getAttribute('data-val') === 'O' &
-                buttons[3].getAttribute('data-val') === 'O' &
-                buttons[6].getAttribute('data-val') === 'O' ||
-                buttons[2].getAttribute('data-val') === 'O' &
-                buttons[4].getAttribute('data-val') === 'O' &
-                buttons[7].getAttribute('data-val') === 'O' ||
-                buttons[3].getAttribute('data-val') === 'O' &
-                buttons[5].getAttribute('data-val') === 'O' &
-                buttons[8].getAttribute('data-val') === 'O' ||
-                buttons[0].getAttribute('data-val') === 'O' &
-                buttons[4].getAttribute('data-val') === 'O' &
-                buttons[8].getAttribute('data-val') === 'O' ||
-                buttons[2].getAttribute('data-val') === 'O' &
-                buttons[4].getAttribute('data-val') === 'O' &
-                buttons[6].getAttribute('data-val') === 'O' ||
-                buttons[0].getAttribute('data-val') === 'O' &
-                buttons[1].getAttribute('data-val') === 'O' &
-                buttons[2].getAttribute('data-val') === 'O' ||
-                buttons[3].getAttribute('data-val') === 'O' &
-                buttons[4].getAttribute('data-val') === 'O' &
-                buttons[5].getAttribute('data-val') === 'O' ||
-                buttons[6].getAttribute('data-val') === 'O' &
-                buttons[7].getAttribute('data-val') === 'O' &
-                buttons[8].getAttribute('data-val') === 'O' 
-            ){
-                console.log('player two won')
-            }
-            gameboard.checkforChanges(e, moveCount);
+                board[0] === 'X' &
+                board[1] === 'X' &
+                board[2] === 'X' ||
+                board[3] === 'X' &
+                board[4] === 'X' &
+                board[5] === 'X' ||
+                board[6] === 'X' &
+                board[7] === 'X' &
+                board[8] === 'X' ||
+                
+                board[0] === 'X' &
+                board[3] === 'X' &
+                board[6] === 'X' ||
+                board[1] === 'X' &
+                board[4] === 'X' &
+                board[7] === 'X' ||
+                board[2] === 'X' &
+                board[5] === 'X' &
+                board[8] === 'X' ||
 
+                board[0] === 'X' &
+                board[4] === 'X' &
+                board[8] === 'X' ||
+                board[2] === 'X' &
+                board[4] === 'X' &
+                board[6] === 'X' 
+            )  {
+                alert('player one won')
+            } else if (
+                board[0] === 'O' &
+                board[1] === 'O' &
+                board[2] === 'O' ||
+                board[3] === 'O' &
+                board[4] === 'O' &
+                board[5] === 'O' ||
+                board[6] === 'O' &
+                board[7] === 'O' &
+                board[8] === 'O' ||
+                
+                board[0] === 'O' &
+                board[3] === 'O' &
+                board[6] === 'O' ||
+                board[1] === 'O' &
+                board[4] === 'O' &
+                board[7] === 'O' ||
+                board[2] === 'O' &
+                board[5] === 'O' &
+                board[8] === 'O' ||
+
+                board[0] === 'O' &
+                board[4] === 'O' &
+                board[8] === 'O' ||
+                board[2] === 'O' &
+                board[4] === 'O' &
+                board[6] === 'O' 
+            ) {
+                alert('player two won')
+            } else if (moveCount === 9) {
+                alert('shot')
+            }
         }
         
+        return {checkWin}
     })();
 
