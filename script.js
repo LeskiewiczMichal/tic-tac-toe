@@ -1,25 +1,23 @@
     const gameboard = (() => {
         let _gameboard = ['0', '1', '2', '3', '4', '5', '6', '7', '8'];
         
-
         // cache DOM
         let board = document.getElementById('board');
 
-        // bind events
-
-        createBoardButton();
+        createBoard();
         
-        function createBoardButton() {
+        function createBoard() {
             _gameboard.forEach(createNewButton);
         };
 
         function createNewButton(val) {
             const newBtn = document.createElement('button');
-            newBtn.classList.add('field');
-            if (val === 'X') {
-                newBtn.classList.add('X')
+            if (val !== 'X' && val !== 'O') {
+                newBtn.classList.add('field');
+            } else if (val === 'X') {
+                newBtn.classList.add(val)
             } else if (val === 'O') {
-                newBtn.classList.add('O');
+                newBtn.classList.add(val);
             }
             newBtn.setAttribute('btnNum', val)
             board.appendChild(newBtn)
@@ -35,8 +33,13 @@
             }
             game.checkWin(_gameboard, moveCount)
         }
+
+        const resetBoard = () => {
+            board.innerHTML = '';
+            createBoard()
+        }
         
-        return {checkforChanges}
+        return {checkforChanges, resetBoard}
     })();
 
 
@@ -47,27 +50,24 @@
         let player2 = 'O'
         let moveCount = 1;
         
-       
-        // cache DOM
-        const buttons = document.querySelectorAll('.field');
-        
-        // bind events
-        buttons.forEach(item => {
-            item.addEventListener('click', play);
-            // item.addEventListener('click', );
-        })
+        bindToButtons();
+
+        function bindToButtons() {
+            gameboard.resetBoard()
+            const buttons = document.querySelectorAll('.field');
+            buttons.forEach(item => {
+                item.addEventListener('click', play);
+            });
+        }
         
         function play(e) {
             let square = e.target;
-            if (moveCount % 2 == 0) {
-                square.dataset.val = player1;
-            } else {
-                square.dataset.val = player2;
-            }
             gameboard.checkforChanges(e, moveCount);
+            bindToButtons();
             moveCount++;
             square.disabled = true;
-        }
+        };
+
 
         const checkWin = function winCheck(board, moveCount) {
             if (
