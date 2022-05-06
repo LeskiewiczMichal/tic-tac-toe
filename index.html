@@ -8,18 +8,49 @@
      <link rel="stylesheet" href="style.css">
  </head>
  <body>
-     <div>
-        <div id="controlls">
+    <div id="options">
+        <div>
+            <form class="radioContainer">
+                <input type="radio" id="pve" name="option" checked>
+                <label for="pve" id="pveLb">Player vs Computer</label>
+                <input type="radio" id="pvp" name="option">
+                <label for="pvp" id="pvpLb">Player vs Player</label>
+            </form>
+            <form class="buttonContainer" id="chooseOptions">
+                <label for="playerOneName"></label>
+                <input type="text" id="playerOneName" placeholder="Player One Name">
+                <input type="text" id="playerTwoName" placeholder="Player Two Name" class="hidden">
+                <label for="playerTwoName" id="nameTwoLabel" class="hidden"></label>
+                <p>Choose input for Player One:</p>
+                <input type="radio" id="X" name="chooseLabel">
+                <label for="X" id="xLb">X</label>
+                <input type="radio" id="O" name="chooseLabel">
+                <label for="O" id="oLb">O</label>
+            </form>
+            <button id="play">PLAY</button>
+        </div>
+    </div>
+    <div>
+        <div id="topDisplay">
             <div>
-                <button id="X">X</button>
-                <button id="O">O</button>
+                <div>
+                    <!-- <button id="X">X</button> -->
+                    <!-- <button id="O">O</button> -->
+                </div>
+                <div>
+                    <!-- <input type="text" id="playerOneName" name="playerOneName"> -->
+                    <!-- <label for="playerOneName"></label> -->
+                    <!-- <input type="text" id="playerTwoName" name="playerTwoName"> -->
+                    <!-- <label for="playerTwoName"></label> -->
+                </div>
             </div>
             <button id="reset">Reset</button>
         </div>
-        <div>
+         <div>
             <div id="board"></div>
         </div>
     </div>
-     <script src="script.js"></script>
+    
+    <script src="script.js"></script>
  </body>
  </html>
