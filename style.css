@@ -456,14 +456,14 @@ input[type="text"] {
     padding: 10px;
 }
 
+.hidden {
+    display: none
+}
+
 #chooseOptions > p {
     font-size: 20px;
     margin-bottom: 6px;
     margin-top: 15px;
-}
-
-.hidden {
-    display: none;
 }
 
 #options button {

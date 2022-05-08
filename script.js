@@ -7,10 +7,10 @@ const gameboard = (() => {
     createBoard();
     
     function createBoard() {
-        _gameboard.forEach(createNewButton);
+        _gameboard.forEach(createButtons);
     };
 
-    function createNewButton(val) {
+    function createButtons(val) {
         const newBtn = document.createElement('button');
         if (val !== 'X' && val !== 'O') {
             newBtn.classList.add('field');
@@ -23,7 +23,8 @@ const gameboard = (() => {
         board.appendChild(newBtn)
     };
 
-    const checkforChanges = (e, moveCount) => {
+
+    const makeBoardChanges = (e, moveCount) => {
         let button = e.target;
         let index = _gameboard.indexOf(button.getAttribute('btnnum'));
         if (moveCount % 2 == 0) {
@@ -31,7 +32,7 @@ const gameboard = (() => {
         } else {
             _gameboard[index] = 'O'
         }
-        game.checkWin(_gameboard, moveCount)
+        game.checkForWin(_gameboard, moveCount)
     }
 
     const resetBoard = () => {
@@ -39,7 +40,7 @@ const gameboard = (() => {
         createBoard()
     }
     
-    return {checkforChanges, resetBoard}
+    return {makeBoardChanges, resetBoard}
 })();
 
 
@@ -50,26 +51,26 @@ const game = (() => {
     let player2 = 'O'
     let moveCount = 1;
 
-    bindToGameboard();
+    bindToBoardKeys();
 
-    function bindToGameboard() {
+    function bindToBoardKeys() {
         gameboard.resetBoard()
         const buttons = document.querySelectorAll('.field');
         buttons.forEach(item => {
-            item.addEventListener('click', play);
+            item.addEventListener('click', oneMove);
         });
     }
     
-    function play(e) {
+    function oneMove(e) {
         let square = e.target;
-        gameboard.checkforChanges(e, moveCount);
-        bindToGameboard();
+        gameboard.makeBoardChanges(e, moveCount);
+        bindToBoardKeys();
         moveCount++;
         square.disabled = true;
     };
 
 
-    const checkWin = function winCheck(board, moveCount) {
+    const checkForWin = (board, moveCount) => {
         if (
             board[0] === 'X' &
             board[1] === 'X' &
@@ -133,7 +134,7 @@ const game = (() => {
         };
     };
     
-    return {checkWin}
+    return {checkForWin}
 })();
 
 const displayController = (() => {
@@ -142,25 +143,31 @@ const displayController = (() => {
     const pveButton = document.querySelector('#pve');
     const pvpButton = document.querySelector('#pvp');
     const playButton = document.querySelector('#play');
+    let playerTwoNameInput =  document.querySelector('#playerTwoName');
     
     // Bind Events
     playButton.addEventListener('click', play);
-    pvpButton.addEventListener('click', pvp);
+    pvpButton.addEventListener('click', checkRadioButtons);
+    pveButton.addEventListener('click', checkRadioButtons)
+
+    function checkRadioButtons() {
+        if (pvpButton.checked) {
+            pvp();
+        } else if (pveButton.checked) {
+            pve();
+        }
+    }
 
     function play() {
         document.querySelector('#options').style.display = "none"
     }
 
-    function pvp() {
-        document.querySelector('#nameTwoLabel').classList.remove('hidden')
+    function pve() {
+        playerTwoNameInput.classList.add('hidden')
     }
 
-    // if pvpbutton clicked 
-    // #chooesoption create two input texts
-    // show 
-
-    
-
-    
+    function pvp() {
+        playerTwoNameInput.classList.remove('hidden')
+    }
 
 })();
