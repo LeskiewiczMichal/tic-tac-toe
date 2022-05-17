@@ -456,9 +456,6 @@ input[type="text"] {
     padding: 10px;
 }
 
-.hidden {
-    display: none
-}
 
 #chooseOptions > p {
     font-size: 20px;
@@ -484,6 +481,53 @@ input[type="text"] {
     box-shadow: 0px 0px 5px rgb(0, 0, 0);
     padding: 10px;
     padding-left: 30px;
+}
+
+#topDisplay > div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#nameOneDisplay,
+#nameTwoDisplay {
+    min-height: 35px;
+    min-width: 350px;
+    max-height: fit-content;
+    max-width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 10px;
+    font-size: 20px;
+    
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 7px rgb(0, 0, 0);
+}
+
+#nameOneDisplay::before {
+    content: "Player One:";
+    margin-right: 10px;
+}
+
+#nameTwoDisplay:before {
+    content: "Player Two: ";
+    margin-right: 10px;
+}
+
+#reset,
+#exit {
+  padding: 10px;
+  width: 200px;
+  box-shadow: 0 0 3px rgb(0, 0, 0);
+  background-color: rgb(244, 241, 208);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#reset:hover,
+#exit:hover {
+  background-color: rgb(187, 173, 24);
 }
 
 #board {
@@ -515,13 +559,19 @@ input[type="text"] {
 }
 
 #board > button:hover {
-
+  background-color: rgb(202, 22, 22);
 }
 
 .X {
     background-image: url(./icons/x.svg);
+    background-color: rgb(75, 77, 78);
 }
 
 .O {
     background-image: url(./icons/circle.svg);
+}
+
+
+.hidden {
+    display: none
 }
