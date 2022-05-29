@@ -41,9 +41,13 @@ const gameboard = (() => {
 
     const resetBoard = () => {
         _gameboard = ['0', '1', '2', '3', '4', '5', '6', '7', '8'];
+    };
+
+    const returnBoard = () => {
+        return _gameboard;
     }
     
-    return {makeBoardChanges, createBoard, resetBoard}
+    return {makeBoardChanges, createBoard, resetBoard, returnBoard}
 })();
 
 
@@ -116,19 +120,109 @@ const game = (() => {
         moveCount++;
         gameboard.makeBoardChanges(square, moveCount);
         square.disabled = true;
-        if (option === 'pve') {
+        // if (option === 'pve') {
             computerTurn()
-        };
+        // };
     };
 
     // One random computer move, also checks if someone
     // won with makeboardchanges
     function computerTurn() {
         moveCount++;
-        buttons = document.querySelectorAll('.field');
-        let btnArray = Array.from(buttons);
-        let square = btnArray[Math.floor(Math.random()*btnArray.length)];
-        gameboard.makeBoardChanges(square, moveCount);
+        // buttons = document.querySelectorAll('.field');
+        // console.log(buttons);
+        // let btnArray = Array.from(buttons);
+        // console.log(btnArray);
+        // let square = btnArray[Math.floor(Math.random()*btnArray.length)];
+        // gameboard.makeBoardChanges(square, moveCount);
+
+        let board = gameboard.returnBoard();
+        let bestScore = -Infinity;
+        let bestMove;
+        for (let i = 0; i < 9; i++) {
+            if (board[i] !== 'X' && board[i] !== 'O') {
+                let boardSave = board[i];
+                board[i] = playerTwo.input;
+                let score
+                if (playerOne.input === 'O') {
+                    score = minmax(board, 0, false);
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestMove = i;
+                    }
+                } else if (playerOne.input === 'X') {
+                    score = minmax(board, 0, true);
+                    if (score < bestScore) {
+                        bestScore = score;
+                        bestMove = i;
+                    }
+                }
+                board[i] = boardSave;
+                // if (score > bestScore) {
+                //     bestScore = score;
+                //     bestMove = i;
+                // }
+            }
+        };
+        board[bestMove] = playerTwo.input;
+        bindToBoardKeys();
+        // checkForWin(board);
+    };
+
+    const scores = {
+        'Computer': 1,
+        'Player': -1,
+        'Tie': 0
+    };
+
+    function minmax(board, depth, isMaximizng) {
+        // let  board = gameboard.returnBoard();
+        let result = checkForWin(board, moveCount);
+
+        if (result !== null) {
+            return scores[result]
+        } ;
+
+        if (isMaximizng) {
+            let bestScore = -Infinity;
+            for (let i = 0; i < 9; i++) {
+                if (board[i] !== 'X' && board[i] !== 'O') {
+                    let boardSave = board[i];
+                    board[i] = playerTwo.input;
+                    let score;
+                    // if (playerOne.input === 'O') {
+                        score = minmax(board, depth + 1, false);
+                    // } else {
+                        // score = minmax(board, depth + 1, true);
+                    // };
+                    board[i] = boardSave;
+                    if (score > bestScore) {
+                        bestScore = score;
+                    }
+                }
+            }
+            return bestScore;
+        } else {
+            let bestScore = Infinity;
+            
+            for (let i = 0; i < 9; i++) {
+                if (board[i] !== 'X' && board[i] !== 'O') {
+                    let boardSave = board[i];
+                    board[i] = playerOne.input;
+                    let score;
+                    // if (playerOne.input === 'O') {
+                        score = minmax(board, depth + 1, true);
+                    // } else {
+                        // score = minmax(board, depth + 1, false);
+                    // }
+                    board[i] = boardSave;
+                    if (score < bestScore) {
+                        bestScore = score;
+                    }
+                }
+            }
+            return bestScore;
+        }
     };
 
     const checkForWin = (board, moveCount) => {
@@ -161,11 +255,13 @@ const game = (() => {
             board[6] === 'X' 
         )  {
             if (playerOne.input === 'X') {
-                boardKeysAfterEnd();
-                nameOneDisplay.style.boxShadow = '0 0 20px rgb(202, 22, 22)'
+                // boardKeysAfterEnd();
+                // nameOneDisplay.style.boxShadow = '0 0 20px rgb(202, 22, 22)';
+                return 'Player';
             } else {
-                nameTwoDisplay.style.boxShadow = '0 0 20px rgb(202, 22, 22)'
-                boardKeysAfterEnd();
+                // nameTwoDisplay.style.boxShadow = '0 0 20px rgb(202, 22, 22)'
+                // boardKeysAfterEnd();
+                return 'Computer';
             }
         } else if (
             board[0] === 'O' &
@@ -196,16 +292,21 @@ const game = (() => {
             board[6] === 'O' 
         ) {
             if (playerOne.input === 'O') {
-                boardKeysAfterEnd();
-                nameOneDisplay.style.boxShadow = '0 0 20px rgb(202, 22, 22)'
+                // boardKeysAfterEnd();
+                // nameOneDisplay.style.boxShadow = '0 0 20px rgb(202, 22, 22)';
+                return 'Player';
             } else {
-                boardKeysAfterEnd();
-                nameTwoDisplay.style.boxShadow = '0 0 20px rgb(202, 22, 22)'
+                // boardKeysAfterEnd();
+                // nameTwoDisplay.style.boxShadow = '0 0 20px rgb(202, 22, 22)';
+                return 'Computer';
             }
         } else if (moveCount === 10) {
-            boardKeysAfterEnd();
-            alert('It\'s a tie!');
-        };
+            // boardKeysAfterEnd();
+            // alert('It\'s a tie!');
+            return 'Tie';
+        } else {
+            return null;
+        }
     };
 
     // Resets gameboard, movecount and sets buttons color
@@ -231,7 +332,7 @@ const game = (() => {
         document.querySelector('#options').style.visibility = "visible";
     };
     
-    return {checkForWin, computerTurn, bindToBoardKeys};
+    return {checkForWin, computerTurn, bindToBoardKeys, minmax};
 })();
 
 const displayController = (() => {
